@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "c10b7305-eae2-45a6-9221-2c69c34993e2",
+		"name": "Nexus-ims-backend",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26692834",
+		"_collection_link": "https://solar-shuttle-743294.postman.co/workspace/My-Workspace~f4e53b0d-f6e9-4faa-8f60-5630b4ce8158/collection/26692834-c10b7305-eae2-45a6-9221-2c69c34993e2?action=share&source=collection_link&creator=26692834"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Create user",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgxMzE3ODM1ZTZiMzkyMGNiZjAyNjMiLCJwaG9uZSI6IjAxODYwMzAxNDA3Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUzMjk4NTQzLCJleHAiOjE3NTMzODQ5NDN9.IJQgXVp0q1Aq8IWccdEVr01YcnUyt5kQmTpDgodkIQo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\":\"01608257105\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"create-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Send OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgxMzE3ODM1ZTZiMzkyMGNiZjAyNjMiLCJwaG9uZSI6IjAxODYwMzAxNDA3Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUzMjk4NTQzLCJleHAiOjE3NTMzODQ5NDN9.IJQgXVp0q1Aq8IWccdEVr01YcnUyt5kQmTpDgodkIQo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\":\"01608257105\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"create-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Verify OTP",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgxMzE3ODM1ZTZiMzkyMGNiZjAyNjMiLCJwaG9uZSI6IjAxODYwMzAxNDA3Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUzMjk4NTQzLCJleHAiOjE3NTMzODQ5NDN9.IJQgXVp0q1Aq8IWccdEVr01YcnUyt5kQmTpDgodkIQo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\":\"01608257105\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"create-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Set password",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2ODgxMzE3ODM1ZTZiMzkyMGNiZjAyNjMiLCJwaG9uZSI6IjAxODYwMzAxNDA3Iiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzUzMjk4NTQzLCJleHAiOjE3NTMzODQ5NDN9.IJQgXVp0q1Aq8IWccdEVr01YcnUyt5kQmTpDgodkIQo",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\":\"01608257105\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"admin",
+								"create-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin-login",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Admin-login Copy",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Student",
+			"item": [
+				{
+					"name": "Create student",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Get all students",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Update a student",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a student",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
-import seedAdminUser from "../seed/seedAdmin";
+import seedAdminUser from "../seed/seedAdmin.js";
+import dotenv from "dotenv";
+dotenv.config();
 
 mongoose
-  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/user-student-db")
+  .connect(process.env.MONGO_URI)
   .then(async () => {
     console.log("✅ MongoDB connected");
-    await seedAdminUser(); // Seed admin here
+    await seedAdminUser();
   })
   .catch((err) => console.error("❌ Mongo error:", err));

@@ -1,3 +1,6 @@
+import { User } from "../models/userModel.js";
+import bcrypt from "bcryptjs";
+
 const seedAdminUser = async () => {
   const adminPhone = process.env.ADMIN_PHONE;
   const adminPass = process.env.ADMIN_PASS;

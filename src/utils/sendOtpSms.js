@@ -1,8 +1,10 @@
 import axios from "axios";
+import dotenv from "dotenv";
+dotenv.config();
 
 const sendOtpSms = async (phone, otp) => {
   const msg = `Your OTP is ${otp}`;
-  const url = `http://bulksmsbd.net/api/smsapi?api_key=WEAW2ZIFbsAro90uZh42&type=text&number=${phone}&senderid=8809617628506&message=${encodeURIComponent(
+  const url = `http://bulksmsbd.net/api/smsapi?api_key=${process.env.SMS_API_KEY}&type=text&number=${phone}&senderid=8809617628506&message=${encodeURIComponent(
     msg
   )}`;
   try {

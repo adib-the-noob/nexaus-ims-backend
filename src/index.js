@@ -3,18 +3,24 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
+
+import { Student } from "./models/studentModel.js";
 import { User } from "./models/userModel.js";
 import authMiddleware from "./middlewares/authMiddleware.js";
 import adminMiddleware from "./middlewares/adminMiddleware.js";
-dotenv.config();
+import "./db/connectDB.js";
+import sendOtpSms from "./utils/sendOtpSms.js";
+import sendResponse from "./utils/sendResponse.js";
 
 const app = express();
+
 app.use(cors());
 app.use(express.json());
 
-
+// ========= Auth API's ===============//
 // 🔸 Admin login
-app.post("/admin/login", async (req, res) => {
+app.post("/api/v1/admin/login", async (req, res) => {
   const { phone, password } = req.body;
   const user = await User.findOne({ phone, role: "admin" });
   if (!user)
@@ -23,18 +29,17 @@ app.post("/admin/login", async (req, res) => {
   const match = await bcrypt.compare(password, user.password);
   if (!match)
     return res.status(401).json({ success: false, message: "Wrong password" });
-
   const token = jwt.sign(
     { userId: user._id, phone: user.phone, role: user.role },
-    process.env.JWT_SECRET || "secret",
+    process.env.JWT_SECRET,
     { expiresIn: "1d" }
   );
-  res.json({ success: true, message: "Admin logged in", token });
+  res.json({ success: true, message: "Admin logged in successfully", token });
 });
 
 // 🔸 Admin creates user
 app.post(
-  "/admin/create-user",
+  "/api/v1/admin/create-user",
   authMiddleware,
   adminMiddleware,
   async (req, res) => {
@@ -50,7 +55,7 @@ app.post(
 );
 
 // 🔸 Send OTP
-app.post("/auth/send-otp", async (req, res) => {
+app.post("/api/v1/auth/send-otp", async (req, res) => {
   const { phone } = req.body;
   const user = await User.findOne({ phone });
   if (!user)
@@ -90,7 +95,7 @@ app.post("/auth/verify-otp", async (req, res) => {
 });
 
 // 🔸 Set password
-app.post("/auth/set-password", async (req, res) => {
+app.post("/api/v1/auth/set-password", async (req, res) => {
   const { phone, password } = req.body;
   const user = await User.findOne({ phone });
   if (!user || !user.isOtpVerified)
@@ -106,7 +111,7 @@ app.post("/auth/set-password", async (req, res) => {
 });
 
 // 🔸 User login
-app.post("/auth/login", async (req, res) => {
+app.post("/api/v1/auth/login", async (req, res) => {
   const { phone, password } = req.body;
   const user = await User.findOne({ phone });
   if (!user || !user.password)
@@ -125,39 +130,120 @@ app.post("/auth/login", async (req, res) => {
   );
   res.json({ success: true, message: "Login successful", token });
 });
+// ========= Auth API's ===============//
 
-// ===== Student CRUD (Protected) =====
-app.post("/students", authMiddleware, async (req, res) => {
+// ===== Student CRUD ===== //
+// 🔹 Create Student
+app.post("/api/v1/students", authMiddleware, async (req, res) => {
   try {
     const student = new Student(req.body);
     await student.save();
-    res.status(201).json({ success: true, data: student });
+    sendResponse(res, {
+      statusCode: 201,
+      message: "Student created successfully",
+      data: student,
+    });
   } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
   }
 });
-app.get("/students", authMiddleware, async (req, res) => {
-  const students = await Student.find();
-  res.json({ success: true, data: students });
+
+// 🔹 Get All Students
+app.get("/api/v1/students", authMiddleware, async (req, res) => {
+  try {
+    const students = await Student.find();
+    sendResponse(res, {
+      message: "Students fetched successfully",
+      data: students,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch students",
+    });
+  }
 });
-app.get("/students/:id", authMiddleware, async (req, res) => {
-  const student = await Student.findById(req.params.id);
-  if (!student)
-    return res
-      .status(404)
-      .json({ success: false, message: "Student not found" });
-  res.json({ success: true, data: student });
+
+// 🔹 Get Single Student
+app.get("/api/v1/students/:id", authMiddleware, async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id);
+    if (!student) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Student not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Student fetched successfully",
+      data: student,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch student",
+    });
+  }
 });
-app.put("/students/:id", authMiddleware, async (req, res) => {
-  const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
-  res.json({ success: true, data: student });
+
+// 🔹 Update Student
+app.put("/api/v1/students/:id", authMiddleware, async (req, res) => {
+  try {
+    const student = await Student.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!student) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Student not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Student updated successfully",
+      data: student,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
+  }
 });
-app.delete("/students/:id", authMiddleware, async (req, res) => {
-  await Student.findByIdAndDelete(req.params.id);
-  res.json({ success: true, message: "Student deleted" });
+
+// 🔹 Delete Student
+app.delete("/api/v1/students/:id", async (req, res) => {
+  try {
+    const student = await Student.findByIdAndDelete(req.params.id);
+    if (!student) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Student not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Student deleted successfully",
+      data: student,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to delete student",
+    });
+  }
 });
+// ===== Student CRUD ===== //
 
 // ===== Start Server =====
 const PORT = process.env.PORT || 5000;
