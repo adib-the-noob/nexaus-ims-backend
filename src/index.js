@@ -12,6 +12,7 @@ import adminMiddleware from "./middlewares/adminMiddleware.js";
 import "./db/connectDB.js";
 import sendOtpSms from "./utils/sendOtpSms.js";
 import sendResponse from "./utils/sendResponse.js";
+import { Teacher } from "./models/teacherModel.js";
 
 const app = express();
 
@@ -221,7 +222,7 @@ app.put("/api/v1/students/:id", authMiddleware, async (req, res) => {
 });
 
 // 🔹 Delete Student
-app.delete("/api/v1/students/:id", async (req, res) => {
+app.delete("/api/v1/students/:id", authMiddleware, async (req, res) => {
   try {
     const student = await Student.findByIdAndDelete(req.params.id);
     if (!student) {
@@ -244,6 +245,120 @@ app.delete("/api/v1/students/:id", async (req, res) => {
   }
 });
 // ===== Student CRUD ===== //
+
+// ===== Teacher CRUD ===== //
+// 🔹 Create Teacher
+app.post("/api/v1/teachers", authMiddleware, async (req, res) => {
+  try {
+    const teacher = new Teacher(req.body);
+    await teacher.save();
+    sendResponse(res, {
+      statusCode: 201,
+      message: "Teacher created successfully",
+      data: teacher,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+// 🔹 Get All Teachers
+app.get("/api/v1/teachers", authMiddleware, async (req, res) => {
+  try {
+    const teachers = await Teacher.find();
+    sendResponse(res, {
+      message: "Teachers fetched successfully",
+      data: teachers,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch teachers",
+    });
+  }
+});
+
+// 🔹 Get Single Teacher
+app.get("/api/v1/teachers/:id", authMiddleware, async (req, res) => {
+  try {
+    const teacher = await Teacher.findById(req.params.id);
+    if (!teacher) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Teacher not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Teacher fetched successfully",
+      data: teacher,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch teacher",
+    });
+  }
+});
+
+// 🔹 Update Teacher
+app.put("/api/v1/teachers/:id", authMiddleware, async (req, res) => {
+  try {
+    const teacher = await Teacher.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    if (!teacher) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Teacher not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Teacher updated successfully",
+      data: teacher,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+// 🔹 Delete Teacher
+app.delete("/api/v1/teachers/:id", authMiddleware, async (req, res) => {
+  try {
+    const teacher = await Teacher.findByIdAndDelete(req.params.id);
+    if (!teacher) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Teacher not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Teacher deleted successfully",
+      data: teacher,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to delete teacher",
+    });
+  }
+});
+
+// ===== Teacher CRUD ===== //
 
 // ===== Start Server =====
 const PORT = process.env.PORT || 5000;
