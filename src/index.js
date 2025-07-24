@@ -13,6 +13,7 @@ import "./db/connectDB.js";
 import sendOtpSms from "./utils/sendOtpSms.js";
 import sendResponse from "./utils/sendResponse.js";
 import { Teacher } from "./models/teacherModel.js";
+import { Committee } from "./models/committeeModel.js";
 
 const app = express();
 
@@ -359,6 +360,123 @@ app.delete("/api/v1/teachers/:id", authMiddleware, async (req, res) => {
 });
 
 // ===== Teacher CRUD ===== //
+
+// ===== Committee CRUD ===== //
+// 🔹 Create Committee
+app.post("/api/v1/committees",authMiddleware, async (req, res) => {
+  try {
+    const committee = new Committee(req.body);
+    await committee.save();
+    sendResponse(res, {
+      statusCode: 201,
+      message: "Committee member created successfully",
+      data: committee,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+// 🔹 Get All Committee Members
+app.get("/api/v1/committees",authMiddleware, async (req, res) => {
+  try {
+    const committees = await Committee.find();
+    sendResponse(res, {
+      message: "Committee members fetched successfully",
+      data: committees,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch committee members",
+    });
+  }
+});
+
+// 🔹 Get Single Committee Member
+app.get("/api/v1/committees/:id", authMiddleware, async (req, res) => {
+  try {
+    const committee = await Committee.findById(req.params.id);
+    if (!committee) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Committee member not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Committee member fetched successfully",
+      data: committee,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch committee member",
+    });
+  }
+});
+
+// 🔹 Update Committee Member
+app.put("/api/v1/committees/:id", authMiddleware, async (req, res) => {
+  try {
+    const committee = await Committee.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+    if (!committee) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Committee member not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Committee member updated successfully",
+      data: committee,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+// 🔹 Delete Committee Member
+app.delete("/api/v1/committees/:id", authMiddleware, async (req, res) => {
+  try {
+    const committee = await Committee.findByIdAndDelete(req.params.id);
+    if (!committee) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Committee member not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Committee member deleted successfully",
+      data: committee,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to delete committee member",
+    });
+  }
+});
+// ===== Committee CRUD ===== //
 
 // ===== Start Server =====
 const PORT = process.env.PORT || 5000;
