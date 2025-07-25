@@ -499,7 +499,7 @@ app.post("/api/v1/add-institution-info", authMiddleware, async (req, res) => {
     sendResponse(res, {
       statusCode: 400,
       success: false,
-      message: err.message,
+      message: error.message,
     });
   }
 });
@@ -515,6 +515,8 @@ app.get("/api/v1/institution-info/:eiin", authMiddleware, async (req, res) => {
       });
     }
     sendResponse(res, {
+      statusCode: 200,
+      success: true,
       message: "Institution information fetched successfully",
       data: institutionInfo,
     });
