@@ -1,5 +1,5 @@
-import { User } from "../models/userModel.js";
 import bcrypt from "bcryptjs";
+import User from "../models/userModel.js";
 
 const seedAdminUser = async () => {
   const adminPhone = process.env.ADMIN_PHONE;

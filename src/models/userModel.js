@@ -5,9 +5,14 @@ const userSchema = new mongoose.Schema({
   password: { type: String },
   isNeedPassCreate: { type: Boolean, default: true },
   isOtpVerified: { type: Boolean, default: false },
-  role: { type: String, enum: ['admin', 'user'], default: 'user' },
+  role: {
+    type: String,
+    enum: ["super_admin", "admin", "user"],
+    default: "user",
+  },
   otpCode: String,
   otpExpiresAt: Date,
 });
 
-export const User = mongoose.model('User', userSchema);
+const User = mongoose.model("User", userSchema);
+export default User;
