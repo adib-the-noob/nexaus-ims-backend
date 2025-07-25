@@ -5,15 +5,19 @@ import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { Student } from "./models/studentModel.js";
-import { User } from "./models/userModel.js";
+import "./db/connectDB.js";
+
 import authMiddleware from "./middlewares/authMiddleware.js";
 import adminMiddleware from "./middlewares/adminMiddleware.js";
-import "./db/connectDB.js";
+
 import sendOtpSms from "./utils/sendOtpSms.js";
 import sendResponse from "./utils/sendResponse.js";
+
+import { Student } from "./models/studentModel.js";
+import { User } from "./models/userModel.js";
 import { Teacher } from "./models/teacherModel.js";
 import { Committee } from "./models/committeeModel.js";
+import { InstitutionInfo } from "./models/institutionModel.js";
 
 const app = express();
 
@@ -363,7 +367,7 @@ app.delete("/api/v1/teachers/:id", authMiddleware, async (req, res) => {
 
 // ===== Committee CRUD ===== //
 // 🔹 Create Committee
-app.post("/api/v1/committees",authMiddleware, async (req, res) => {
+app.post("/api/v1/committees", authMiddleware, async (req, res) => {
   try {
     const committee = new Committee(req.body);
     await committee.save();
@@ -477,6 +481,52 @@ app.delete("/api/v1/committees/:id", authMiddleware, async (req, res) => {
   }
 });
 // ===== Committee CRUD ===== //
+
+// ===== Institution CRUD ===== //
+app.post("/api/v1/add-institution-info", authMiddleware, async (req, res) => {
+  try {
+    const instituteData = new InstitutionInfo(req.body);
+    await instituteData.save();
+    sendResponse(res, {
+      statusCode: 201,
+      success: true,
+      message: {
+        message: "Institution information added successfully",
+        data: instituteData,
+      }
+    });
+  } catch (error) {
+    sendResponse(res, {
+      statusCode: 400,
+      success: false,
+      message: err.message,
+    });
+  }
+});
+
+app.get("/api/v1/institution-info/:eiin", authMiddleware, async (req, res) => {
+  try {
+    const institutionInfo = await InstitutionInfo.findOne({ eiin: req.params.eiin });
+    if (!institutionInfo) {
+      return sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Institution information not found",
+      });
+    }
+    sendResponse(res, {
+      message: "Institution information fetched successfully",
+      data: institutionInfo,
+    });
+  } catch (err) {
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
+      message: "Failed to fetch institution information",
+    });
+  }
+});
+
 
 // ===== Start Server =====
 const PORT = process.env.PORT || 5000;
