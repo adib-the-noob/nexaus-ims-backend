@@ -51,9 +51,18 @@ app.post(
   async (req, res) => {
     const { phone } = req.body;
     try {
+      // Check if user already exists
+      const existingUser = await User.findOne({ phone });
+      if (existingUser) {
+        return res.status(409).json({
+          success: false,
+          message: "User with this phone number already exists",
+        });
+      }
+
       const user = new User({ phone });
       await user.save();
-      res.json({ success: true, message: "User created" });
+      res.json({ success: true, message: "User created successfully" });
     } catch (err) {
       res.status(400).json({ success: false, message: err.message });
     }
@@ -83,7 +92,7 @@ app.post("/api/v1/auth/send-otp", async (req, res) => {
 });
 
 // 🔸 Verify OTP
-app.post("/auth/verify-otp", async (req, res) => {
+app.post("/api/v1/auth/verify-otp", async (req, res) => {
   const { phone, otp } = req.body;
   const user = await User.findOne({ phone });
   if (!user || user.otpCode !== otp || new Date() > user.otpExpiresAt) {
@@ -386,7 +395,7 @@ app.post("/api/v1/committees", authMiddleware, async (req, res) => {
 });
 
 // 🔹 Get All Committee Members
-app.get("/api/v1/committees",authMiddleware, async (req, res) => {
+app.get("/api/v1/committees", authMiddleware, async (req, res) => {
   try {
     const committees = await Committee.find();
     sendResponse(res, {
