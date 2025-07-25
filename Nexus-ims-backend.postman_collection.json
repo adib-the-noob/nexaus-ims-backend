@@ -68,7 +68,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"raw": "http://localhost:5000/api/v1/auth/send-otp",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -77,8 +77,8 @@
 							"path": [
 								"api",
 								"v1",
-								"admin",
-								"create-user"
+								"auth",
+								"send-otp"
 							]
 						}
 					},
@@ -97,7 +97,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\":\"01608257105\"\n}",
+							"raw": "{\n    \"phone\":\"01608257105\",\n    \"otp\":\"332923\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -105,7 +105,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"raw": "http://localhost:5000/api/v1/auth/verify-otp",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -114,8 +114,8 @@
 							"path": [
 								"api",
 								"v1",
-								"admin",
-								"create-user"
+								"auth",
+								"verify-otp"
 							]
 						}
 					},
@@ -134,7 +134,7 @@
 						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"phone\":\"01608257105\"\n}",
+							"raw": "{\n    \"phone\": \"01608257105\",\n    \"password\": \"32332333\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,7 +142,38 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:5000/api/v1/admin/create-user",
+							"raw": "http://localhost:5000/api/v1/auth/set-password",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"set-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Admin-login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"phone\":\"01860301407\",\n    \"password\":\"3939203\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/admin/login",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -152,25 +183,9 @@
 								"api",
 								"v1",
 								"admin",
-								"create-user"
+								"login"
 							]
 						}
-					},
-					"response": []
-				},
-				{
-					"name": "Admin-login",
-					"request": {
-						"method": "GET",
-						"header": []
-					},
-					"response": []
-				},
-				{
-					"name": "Admin-login Copy",
-					"request": {
-						"method": "GET",
-						"header": []
 					},
 					"response": []
 				}
@@ -182,8 +197,30 @@
 				{
 					"name": "Create student",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Amina Rahman\",\n    \"class\": \"10\",\n    \"section\": \"A\",\n    \"institute_given_student_id\": \"CSE2025-1234\",\n    \"roll\": 22,\n    \"photoUrl\": \"https://example.com/photos/amina.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"students"
+							]
+						}
 					},
 					"response": []
 				},
@@ -191,23 +228,73 @@
 					"name": "Get all students",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/students",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"students"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Update a student",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Amina Rahman\",\n    \"class\": \"10\",\n    \"section\": \"A\",\n    \"institute_given_student_id\": \"CSE2025-1233\",\n    \"roll\": 22,\n    \"photoUrl\": \"https://example.com/photos/amina.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/students/688146a130b15e10af18f0db",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"688146a130b15e10af18f0db"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Delete a student",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/students/688146a130b15e10af18f0db",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"students",
+								"688146a130b15e10af18f0db"
+							]
+						}
 					},
 					"response": []
 				}
@@ -219,8 +306,30 @@
 				{
 					"name": "Create teacher",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Dr. Anita Mia\",\n  \"pds_id\": \"TCH20252724123\",\n  \"mobile\": \"9876543210\",\n  \"photo_url\": \"https://example.com/photos/anita-sharma.jpg\",\n  \"main_designation\": \"Head Teacher\",\n  \"designation\": \"Senior Lecturer - Physics\",\n  \"current_institute\": \"Govt. Senior Secondary School, Sector 17\",\n  \"joining_date\": \"2015-07-01T00:00:00.000Z\",\n  \"district\": \"Panchkula\",\n  \"email\": \"anita.sharma@example.com\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/teachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"teachers"
+							]
+						}
 					},
 					"response": []
 				},
@@ -228,23 +337,226 @@
 					"name": "Get all teacher",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/teachers",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"teachers"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single teacer",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/teachers/688252ff30c2553a8e2312df",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"teachers",
+								"688252ff30c2553a8e2312df"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Update a teacher",
 					"request": {
-						"method": "GET",
-						"header": []
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n     \"name\": \"Dr. Anita Mia\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/teachers/688252ff30c2553a8e2312df",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"teachers",
+								"688252ff30c2553a8e2312df"
+							]
+						}
 					},
 					"response": []
 				},
 				{
 					"name": "Delete a teacher",
 					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/teachers/688252ff30c2553a8e2312df",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"teachers",
+								"688252ff30c2553a8e2312df"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Committee",
+			"item": [
+				{
+					"name": "Create committee",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Mr. Amin Molla\",\n  \"photo_url\": \"https://example.com/photos/rajeev-kumar.jpg\",\n  \"designation\": \"Chairperson\",\n  \"mobile\": \"9876543210\",\n  \"email\": \"rajeev.kumar@example.com\",\n  \"session\": \"2023–2025\"\n}\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/committees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"committees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all committee",
+					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/committees",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"committees"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get a single committee",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/committees/688254dc4111f37b89a2e45f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"committees",
+								"688254dc4111f37b89a2e45f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a committee",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Bayajid Alam Joyel\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/v1/committees/688254dc4111f37b89a2e45f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"committees",
+								"688254dc4111f37b89a2e45f"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete a committee",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5000/api/v1/committees/688254dc4111f37b89a2e45f",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"v1",
+								"committees",
+								"688254dc4111f37b89a2e45f"
+							]
+						}
 					},
 					"response": []
 				}
