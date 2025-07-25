@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const authMiddleware = (req, res, next) => {
+  if ((process.env.ENV = "DEVELOPMENT")) {
+    console.log("Development mode: Skipping authentication middleware");
+    return next();
+  }
   const token = req.headers.authorization?.split(" ")[1];
   if (!token)
     return res

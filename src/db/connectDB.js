@@ -9,4 +9,7 @@ mongoose
     console.log("✅ MongoDB connected");
     await seedAdminUser();
   })
-  .catch((err) => console.error("❌ Mongo error:", err));
+  .catch((err) => console.error("❌ Mongo error:", err))
+  .finally(() => {
+    console.log(process.env.MONGO_URI);
+  }); // Log the MongoDB URI for debugging
