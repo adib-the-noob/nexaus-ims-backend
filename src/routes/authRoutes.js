@@ -12,14 +12,14 @@ import adminMiddleware from "../middlewares/adminMiddleware.js";
 
 const router = express.Router();
 
-// Admin routes
-router.post("/admin/login", adminLogin);
-router.post("/admin/create-user", authMiddleware, adminMiddleware, createUser);
-
-// User auth routes
+// User auth routes (no /admin prefix needed here)
 router.post("/send-otp", sendOtp);
 router.post("/verify-otp", verifyOtp);
 router.post("/set-password", setPassword);
 router.post("/login", userLogin);
+
+// Admin routes (no /admin prefix needed here)
+router.post("/admin/login", adminLogin);
+router.post("/admin/create-user", authMiddleware, adminMiddleware, createUser);
 
 export default router;

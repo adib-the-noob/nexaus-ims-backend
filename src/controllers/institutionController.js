@@ -23,8 +23,9 @@ export const addInstitutionInfo = async (req, res) => {
 
 export const getInstitutionInfo = async (req, res) => {
   try {
+    // Changed from req.params.eiin to req.params.id
     const institutionInfo = await InstitutionInfo.findOne({ 
-      eiin: req.params.eiin 
+      eiin: req.params.id 
     });
     
     if (!institutionInfo) {

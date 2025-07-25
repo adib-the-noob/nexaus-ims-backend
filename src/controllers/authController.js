@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import  User  from "../models/userModel.js";
+import User from "../models/userModel.js";
+import sendOtpSms from "../utils/sendOtpSms.js"; // Add this missing import
 
 export const adminLogin = async (req, res) => {
   try {
