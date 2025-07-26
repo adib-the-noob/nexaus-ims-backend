@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.use(authMiddleware);
 
-router.post("/institution-info", addInstitutionInfo);
-router.get("/institution-info/:id", getInstitutionInfo);
+router.post("/add-info", addInstitutionInfo);
+router.get("/get-info/:id", getInstitutionInfo);
 
 export default router;

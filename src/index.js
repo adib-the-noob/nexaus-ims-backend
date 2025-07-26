@@ -13,6 +13,7 @@ import studentRoutes from "./routes/studentRoutes.js";
 import teacherRoutes from "./routes/teacherRoutes.js";
 import committeeRoutes from "./routes/committeeRoutes.js";
 import institutionRoutes from "./routes/institutionRoutes.js";
+import resourceRoutes from "./routes/resourceRoutes.js";
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/v1/students", studentRoutes);
 app.use("/api/v1/teachers", teacherRoutes);
 app.use("/api/v1/committees", committeeRoutes);
 app.use("/api/v1/institution", institutionRoutes);
+app.use("/api/v1/resources", resourceRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
